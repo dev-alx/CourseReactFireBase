@@ -30,7 +30,7 @@ class BarSession extends Component {
           <IconButton color="inherit">
             <i className="material-icons">menu</i>
           </IconButton>
-          <Typography variant="h6">El texto</Typography>
+          <Typography variant="h6">Homes</Typography>
           <div className={classes.grow}></div>
           <div className={classes.sectionDesktop}>
             <Button color="inherit">Login</Button>
