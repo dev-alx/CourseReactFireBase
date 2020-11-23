@@ -1,6 +1,8 @@
 import { Avatar, Button, Container, Grid, TextField, Typography } from '@material-ui/core';
 import React, { Component } from 'react';
 import LockOutLineIcon from '@material-ui/icons/LockOutlined';
+import {compose} from 'recompose'
+import { consumerFirebase } from '../../server';
 
 const style = {
     paper: {
@@ -23,13 +25,33 @@ const style = {
     }
 }
 
+const usuarioInicial ={
+    nombre: '',
+    apellido:'',
+    email: '',
+    password:''
+
+}
+
 class RegistrarUsuario extends Component {
     state = {
+        firebase : null,
         usuario:{
             nombre: '',
             apellido:'',
             email:'',
             password:''
+        }
+    }
+
+    //Metodo propio de los react component
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(nextProps.firebase === prevState.firebase){
+            return null;
+        }
+
+        return {
+            firebase: nextProps.firebase
         }
     }
 
@@ -47,6 +69,21 @@ class RegistrarUsuario extends Component {
     registrarUsuario = e => {
         e.preventDefault();
         console.log(this.state.usuario);
+
+        const {usuario, firebase} = this.state;
+        firebase.db
+        .collection("Users")
+        .add(usuario) //espera un json
+        .then(usuarioAfter =>{
+            console.log("Insercion exitosa", usuarioAfter);
+            this.setState({
+                usuario: usuarioInicial
+            })
+        })
+        .catch(error => {
+            console.log("error", error);
+        })
+
     }
 
     render() {
@@ -90,4 +127,4 @@ class RegistrarUsuario extends Component {
     }
 }
 
-export default RegistrarUsuario;
+export default compose(consumerFirebase) (RegistrarUsuario);
