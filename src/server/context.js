@@ -1,5 +1,6 @@
 import React from 'react';
 
+//Funciona como un container , que almacen variables, en este caso el objeto firebase
 const FirebaseContext = React.createContext();
 
 export default FirebaseContext;

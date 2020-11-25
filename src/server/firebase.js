@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/auth'
 
 //configuracion de la web app en firebase
 const config = {
@@ -20,6 +21,14 @@ class Firebase{
         app.initializeApp(config);
         //Inicializo la base de datos de firebase en la variable
         this.db = app.firestore();
+        //
+        this.auth = app.auth();
+    }
+
+    estaIniciado(){
+        return new Promise(resolve => {
+            this.auth.onAuthStateChanged(resolve);
+        })
     }
 }
 
